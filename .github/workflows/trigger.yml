@@ -26,4 +26,4 @@ jobs:
           echo "The current directory contents are:"
           ls -l
 
-          cat foo.json/foo.json|jq
+          cat foo/foo.json|jq
