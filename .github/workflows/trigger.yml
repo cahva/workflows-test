@@ -5,11 +5,7 @@ on:
       workflow:
         description: 'Workflow name'
         required: true
-        default: 'test-build'
-      job:
-        description: 'Job name'
-        required: true
-        default: 'sanity-check'
+        default: 'test-build.yml'
       artifact:
         description: 'Artifact name'
         required: true
@@ -24,12 +20,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get artifacts
+        id: download-artifact
         uses: dawidd6/action-download-artifact@v2
         with:
           workflow: ${{ github.event.inputs.workflow }}
-          job: ${{ github.event.inputs.job }}
           name: ${{ github.event.inputs.artifact }}
           path: ${{ github.event.inputs.path }}
+          workflow_conclusion: success
 
       - name: Print out the environment
         run: |
@@ -38,4 +35,4 @@ jobs:
           echo "The current directory is $(pwd)."
           echo "The current directory contents are:"
           ls -l
-          cat foo.json
+          cat foo.json|jq
