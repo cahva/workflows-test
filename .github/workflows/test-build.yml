@@ -17,6 +17,7 @@ jobs:
           echo "The current directory is $(pwd)."
           echo "The current directory contents are:"
           ls -l
+          export BRANCH=$(echo ${GITHUB_REF_NAME}|sed 's|/|-|g')
           export SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
           export IMAGE_TAG="${DEPLOYMENT}:${BRANCH}-${SHORT_SHA}"
           tee foo.json <<EOF
