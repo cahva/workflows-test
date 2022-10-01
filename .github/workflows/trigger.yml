@@ -1,0 +1,41 @@
+name: get-artifacts-from-another-workflow
+on:
+  workflow_dispatch:
+    inputs:
+      workflow:
+        description: 'Workflow name'
+        required: true
+        default: 'test-build'
+      job:
+        description: 'Job name'
+        required: true
+        default: 'sanity-check'
+      artifact:
+        description: 'Artifact name'
+        required: true
+        default: 'foo'
+      path:
+        description: 'Artifact path'
+        required: true
+        default: 'foo.json'
+
+jobs:
+  get-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get artifacts
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: ${{ github.event.inputs.workflow }}
+          job: ${{ github.event.inputs.job }}
+          name: ${{ github.event.inputs.artifact }}
+          path: ${{ github.event.inputs.path }}
+
+      - name: Print out the environment
+        run: |
+          echo "Hello, world!"
+          echo "The current time is $(date)."
+          echo "The current directory is $(pwd)."
+          echo "The current directory contents are:"
+          ls -l
+          cat foo.json

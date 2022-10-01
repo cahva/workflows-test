@@ -1,0 +1,23 @@
+name: testing-build
+
+on:
+  push:
+
+jobs:
+  sanity-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print out the environment
+        run: |
+          echo "Hello, world!"
+          echo "The current time is $(date)."
+          echo "The current directory is $(pwd)."
+          echo "The current directory contents are:"
+          ls -l
+          echo '{ "foo": "bar" }' > foo.json
+      # Save artifacts
+      - name: Save artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: foo
+          path: foo.json
