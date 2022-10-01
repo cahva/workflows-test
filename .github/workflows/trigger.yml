@@ -6,14 +6,6 @@ on:
         description: 'Workflow name'
         required: true
         default: 'test-build.yml'
-      artifact:
-        description: 'Artifact name'
-        required: true
-        default: 'foo'
-      path:
-        description: 'Artifact path'
-        required: true
-        default: 'foo.json'
 
 jobs:
   get-artifacts:
@@ -24,8 +16,6 @@ jobs:
         uses: dawidd6/action-download-artifact@v2
         with:
           workflow: ${{ github.event.inputs.workflow }}
-          name: ${{ github.event.inputs.artifact }}
-          path: ${{ github.event.inputs.path }}
           workflow_conclusion: success
 
       - name: Print out the environment
@@ -35,4 +25,5 @@ jobs:
           echo "The current directory is $(pwd)."
           echo "The current directory contents are:"
           ls -l
-          cat foo.json|jq
+
+          cat foo.json/foo.json|jq
