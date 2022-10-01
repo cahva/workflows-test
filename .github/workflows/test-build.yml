@@ -4,7 +4,7 @@ on:
   push:
 
 env:
-  deployment: some-deployment
+  DEPLOYMENT: some-deployment
 
 jobs:
   sanity-check:
@@ -18,13 +18,13 @@ jobs:
           echo "The current directory contents are:"
           ls -l
           export SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
-          export IMAGE_TAG="{{ env.deployment }}:${BRANCH}-${SHORT_SHA}"
+          export IMAGE_TAG="${DEPLOYMENT}:${BRANCH}-${SHORT_SHA}"
           tee foo.json <<EOF
           {
             "fullSha": "${GITHUB_SHA}",
             "shortSha": "${SHORT_SHA}",
             "tag": "${IMAGE_TAG}",
-            "deployment": "{{ env.deployment }}"
+            "deployment": "${DEPLOYMENT}"
           }
           EOF
       # Save artifacts
