@@ -27,3 +27,12 @@ jobs:
           ls -l
 
           cat foo/foo.json|jq
+
+          export SHORT_SHA=$(cat foo/foo.json|jq -r .shortSha)
+          export FULL_SHA=$(cat foo/foo.json|jq -r .fullSha)
+          export IMAGE_TAG=$(cat foo/foo.json|jq -r .tag)
+          export DEPLOYMENT=$(cat foo/foo.json|jq -r .deployment)
+          echo "SHORT_SHA: ${SHORT_SHA}"
+          echo "FULL_SHA: ${FULL_SHA}"
+          echo "IMAGE_TAG: ${IMAGE_TAG}"
+          echo "DEPLOYMENT: ${DEPLOYMENT}"

@@ -3,6 +3,9 @@ name: testing-build
 on:
   push:
 
+env:
+  deployment: some-deployment
+
 jobs:
   sanity-check:
     runs-on: ubuntu-latest
@@ -14,7 +17,16 @@ jobs:
           echo "The current directory is $(pwd)."
           echo "The current directory contents are:"
           ls -l
-          echo '{ "foo": "bar" }' > foo.json
+          export SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
+          export IMAGE_TAG="{{ env.deployment }}:${BRANCH}-${SHORT_SHA}"
+          tee foo.json <<EOF
+          {
+            "fullSha": "${GITHUB_SHA}",
+            "shortSha": "${SHORT_SHA}",
+            "tag": "${IMAGE_TAG}",
+            "deployment": "{{ env.deployment }}"
+          }
+          EOF
       # Save artifacts
       - name: Save artifacts
         uses: actions/upload-artifact@v3
