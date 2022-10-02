@@ -28,6 +28,7 @@ jobs:
           workflow: ${{ env.workflow-name }}
           ## Only success if this is coming from trigger
           workflow_conclusion: ${{ inputs.from-trigger && 'success' || '' }}
+          name: ${{ github.ref_name }}-deployment
       - name: Set env variables from artifact
         run: |
           cat deployment/deployment.json|jq
