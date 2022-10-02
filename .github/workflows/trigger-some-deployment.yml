@@ -1,10 +1,16 @@
 name: dispatch-deploy
 on:
   workflow_dispatch:
+    inputs:
+      workflow:
+        description: 'Workflow name'
+        required: true
+        default: 'test-build'
+        type: string
 
 jobs:
   deploy:
-    uses: '.github/workflows/reusable-deploy.yml'
+    uses: .github/workflows/reusable-deploy.yml
     with:
-      workflow: test-build
+      workflow: ${{ inputs.workflow }}
       from-trigger: true
