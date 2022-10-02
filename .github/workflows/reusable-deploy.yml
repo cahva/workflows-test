@@ -38,9 +38,9 @@ jobs:
       - name: Set env variables from artifact
         run: |
           ls -la
-          cat deployment/deployment.json|jq
-          export DEPLOYMENT=$(cat deployment/deployment.json|jq -r .deployment)
-          export IMAGE_TAG=$(cat deployment/deployment.json|jq -r .tag)
+          cat deployment.json|jq
+          export DEPLOYMENT=$(cat deployment.json|jq -r .deployment)
+          export IMAGE_TAG=$(cat deployment.json|jq -r .tag)
 
           # Write to github env
           echo "DEPLOYMENT=${DEPLOYMENT}" >> $GITHUB_ENV
