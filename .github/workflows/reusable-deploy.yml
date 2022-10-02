@@ -37,6 +37,7 @@ jobs:
           name: ${{ github.ref_name }}-deployment
       - name: Set env variables from artifact
         run: |
+          ls -la
           cat deployment/deployment.json|jq
           export DEPLOYMENT=$(cat deployment/deployment.json|jq -r .deployment)
           export IMAGE_TAG=$(cat deployment/deployment.json|jq -r .tag)
