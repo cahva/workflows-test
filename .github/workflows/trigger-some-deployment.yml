@@ -10,7 +10,7 @@ on:
 
 jobs:
   deploy:
-    uses: .github/workflows/reusable-deploy.yml
+    uses: ./.github/workflows/reusable-deploy.yml
     with:
       workflow: ${{ inputs.workflow }}
       from-trigger: true
