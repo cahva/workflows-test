@@ -1,0 +1,10 @@
+name: dispatch-deploy
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    uses: '.github/workflows/reusable-deploy.yml'
+    with:
+      workflow: test-build
+      from-trigger: true
