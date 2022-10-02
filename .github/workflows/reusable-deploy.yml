@@ -1,0 +1,44 @@
+name: Fake deploy
+on:
+  workflow_call:
+    inputs:
+      workflow:
+        description: 'Workflow name'
+        required: true
+        default: 'test-build'
+        type: string
+      environment:
+        description: 'Deployment name'
+        required: true
+        default: 'app1'
+        type: string
+      from-trigger:
+        description: 'Is this workflow being triggered by another workflow?'
+        required: false
+        default: 'false'
+        type: boolean
+
+env:
+  workflow-name: '${{ inputs.workflow }}.yml'
+
+
+jobs:
+  change-deployment-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get deployment artifact from build workflow
+        id: download-artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: ${{ env.workflow-name }}
+          ## Only success if this is coming from trigger
+          workflow_conclusion: ${{ inputs.from-trigger && 'success' || '' }}
+      - name: Set env variables from artifact
+        run: |
+          cat deployment/deployment.json|jq
+          export DEPLOYMENT=$(cat deployment/deployment.json|jq -r .deployment)
+          export IMAGE_TAG=$(cat deployment/deployment.json|jq -r .tag)
+
+          # Write to github env
+          echo "DEPLOYMENT=${DEPLOYMENT}" >> $GITHUB_ENV
+          echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_ENV

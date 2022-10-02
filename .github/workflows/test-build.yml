@@ -19,8 +19,8 @@ jobs:
           ls -l
           export BRANCH=$(echo ${GITHUB_REF_NAME}|sed 's|/|-|g')
           export SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
-          export IMAGE_TAG="${DEPLOYMENT}:${BRANCH}-${SHORT_SHA}"
-          tee foo.json <<EOF
+          export IMAGE_TAG="someorg/${DEPLOYMENT}:${BRANCH}-${SHORT_SHA}"
+          tee deployment.json <<EOF
           {
             "fullSha": "${GITHUB_SHA}",
             "shortSha": "${SHORT_SHA}",
@@ -30,7 +30,14 @@ jobs:
           EOF
       # Save artifacts
       - name: Save artifacts
+        if: github.ref_name == 'staging' || github.ref_name == 'main'
         uses: actions/upload-artifact@v3
         with:
-          name: foo
-          path: foo.json
+          name: ${{ github.ref_name }}-deployment
+          path: deployment.json
+
+  test-reusable-workflow:
+    uses: ./.github/workflows/reusable-deploy.yml
+    with:
+      workflow: test-build
+
