@@ -37,6 +37,7 @@ jobs:
           path: deployment.json
 
   test-reusable-workflow:
+    needs: sanity-check
     uses: ./.github/workflows/reusable-deploy.yml
     with:
       workflow: test-build
