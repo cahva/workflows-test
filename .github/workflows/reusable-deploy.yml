@@ -10,7 +10,7 @@ on:
       from-trigger:
         description: 'Is this workflow being triggered by another workflow?'
         required: false
-        default: 'false'
+        default: false
         type: boolean
 
 env:
