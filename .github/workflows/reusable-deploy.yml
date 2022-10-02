@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get deployment artifact from build workflow (if not triggered by another workflow)
-        if: inputs.from-trigger == 'false'
+        if: ${{ inputs.from-trigger == false }}
         uses: actions/download-artifact@v3
         with:
           name: ${{ github.ref_name }}-deployment
@@ -30,7 +30,7 @@ jobs:
       - name: Get deployment artifact from build workflow
         id: download-artifact
         uses: dawidd6/action-download-artifact@v2
-        if: inputs.from-trigger == 'true'
+        if: ${{ inputs.from-trigger == true }}
         with:
           workflow: ${{ env.workflow-name }}
           ## Only success if this is coming from trigger
