@@ -26,7 +26,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ github.ref_name }}-deployment
-          path: deployment.json
       - name: Get deployment artifact from build workflow
         id: download-artifact
         uses: dawidd6/action-download-artifact@v2
