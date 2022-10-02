@@ -7,11 +7,6 @@ on:
         required: true
         default: 'test-build'
         type: string
-      environment:
-        description: 'Deployment name'
-        required: true
-        default: 'app1'
-        type: string
       from-trigger:
         description: 'Is this workflow being triggered by another workflow?'
         required: false
